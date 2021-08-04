@@ -1,0 +1,48 @@
+{
+  "name": "react-drawrect",
+  "version": "1.0.0",
+  "description": "React draw a detection box on the picture",
+  "keywords": [
+    "react",
+    "canvas",
+    "draw",
+    "rectangle"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/1061603885/react-drawrect.git"
+  },
+  "bugs": {
+    "url": "https://github.com/1061603885/react-drawrect/issues"
+  },
+  "homepage": "https://github.com/1061603885/react-drawrect#readme",
+  "main": "/lib/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "yarn run rollup -c",
+    "start": "webpack serve --config example/webpack.config.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "@babel/core": "^7.14.8",
+    "@babel/preset-env": "^7.14.9",
+    "@babel/preset-react": "^7.14.5",
+    "@emotion/babel-preset-css-prop": "^11.2.0",
+    "rollup": "^2.55.1",
+    "rollup-plugin-babel": "^4.4.0",
+    "babel-loader": "^8.2.2",
+    "css-loader": "^5.0.1",
+    "html-webpack-plugin": "^4.5.1",
+    "style-loader": "^2.0.0",
+    "webpack": "^5.11.1",
+    "webpack-cli": "^4.3.1",
+    "webpack-dev-server": "^3.11.1"
+  },
+  "dependencies": {
+    "file-loader": "^6.2.0",
+    "url-loader": "^4.1.1"
+  }
+}
