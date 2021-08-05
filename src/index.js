@@ -1,5 +1,5 @@
-import Switch from "./components/Switch"
-import ImgDrawRect from "./components/ImgDrawRect"
+import dataURLToBlob from "./methods/dataURLToBlob";
+import ImgDrawRect from "./components/ImgDrawRect";
+import getUrlToData from "./methods/getUrlToData";
 
-
-export { Switch, ImgDrawRect }
+export { ImgDrawRect, dataURLToBlob, getUrlToData };

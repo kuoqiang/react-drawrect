@@ -40,10 +40,12 @@ yarn add react-drawrect
 
 
 ```react
+import React,{ useRef } from "react"
 import { ImgDrawRect } from 'react-drawrect';
 
-const App = () => (
-  <>
+const App = () => {
+  const myRef = useRef();
+  return 
     <ImgDrawRect
         lineColor="blue"
         lineWidth={3}
@@ -53,9 +55,31 @@ const App = () => (
         src={imgSrc}
         option={[{ left: 10, top: 10, width: 20, height: 20 }]}
       />
-  </>
-);
+};
+
+组件可以使用一些canvas处理数据的方法,需要通过ref先获取组件
+//获取当前box标记数据
+myRef.current.getData()
+
+//设置当前box标记的数据
+myRef.current.setData(boxData)
+
+//下载带有检测框的图片
+myRef.current.upload()
+
+//清空画布
+myRef.current.clearRect()
+
+
+## 另外，此包中还外置一些获取图片数据的方法，通过import方式导入
+import { dataURLToBlob, xxxx } from 'react-drawrect'
+
+dataURLToBlob(base64)  //传入base64,返回blob图片文件数据
+
+getUrlToData(url,type)   //传入图片url,返回对应类型数据，type支持blob和base64
 ```
+
+
 
 
 
