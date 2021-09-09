@@ -1,19 +1,27 @@
 import React, { useRef } from "react";
 import ImgDrawRect from "../src/components/ImgDrawRect";
-import imgSrc from "./assets/images/1.jpg";
-import  getUrlToData  from "../src/methods/getUrlToData";
+import imgSrc from "./assets/images/result.jpg";
+import getUrlToData from "../src/methods/getUrlToData";
 function App() {
   const myRef = useRef();
   return (
     <div>
       <ImgDrawRect
-        lineColor="blue"
+        lineColor="#ff8000"
         lineWidth={3}
         ref={myRef}
-        width={400}
-        height={400}
+        width={1920}
+        height={1080}
         src={imgSrc}
-        option={[{ left: 10, top: 10, width: 50, height: 50 }]}
+        option={[
+          {
+            angle: -72.2,
+            center_x: 1517,
+            center_y: 494,
+            height: 119,
+            width: 459,
+          },
+        ]}
       />
       <div style={{ marginTop: "20px" }}>
         <button

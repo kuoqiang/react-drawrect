@@ -20,26 +20,53 @@ const ImgDrawRect = (props, ref) => {
   } = props;
   const [boxData, setBoxData] = useState(option);
 
+  //渲染矩形
   const renderRect = (boxData, ctx, img) => {
-    let arr = [];
-    boxData.forEach((List) => {
-      var Cwidth = (width / img.width) * List.width;
-      var Cheight = (height / img.height) * List.height;
-      var Cx = (width / img.width) * List.left;
-      var Cy = (height / img.height) * List.top;
-      arr.push({
-        width: Cwidth,
-        height: Cheight,
-        x: Cx,
-        y: Cy,
+    img.onload = () => {
+      let arr = [];
+      boxData.forEach((List) => {
+        let Cwidth = (width / img.width) * List.width;
+        let Cheight = (height / img.height) * List.height;
+        if (List.angle) {
+          let Cx = (width / img.width) * (List.center_x - List.width / 2);
+          let Cy = (height / img.height) * (List.center_y - List.height / 2);
+          let Ccenter_x = (width / img.width) * List.center_x;
+          let Ccenter_y = (height / img.height) * List.center_y;
+          arr.push({
+            width: Cwidth,
+            height: Cheight,
+            x: Cx,
+            y: Cy,
+            center_x: Ccenter_x,
+            center_y: Ccenter_y,
+            angle: List.angle,
+          });
+        } else {
+          // let Cwidth = (width / img.width) * List.width;
+          // let Cheight = (height / img.height) * List.height;
+          let Cx = (width / img.width) * List.left;
+          let Cy = (height / img.height) * List.top;
+          // console.log(List.width, List.height);
+          arr.push({
+            width: Cwidth,
+            height: Cheight,
+            x: Cx,
+            y: Cy,
+          });
+        }
       });
-    });
-    arr.forEach((item) => {
-      ctx.lineWidth = lineWidth || 2;
-      ctx.rect(item.x, item.y, item.width, item.height);
-      ctx.strokeStyle = lineColor || "#f40";
-      ctx.stroke();
-    });
+
+      arr.forEach((item) => {
+        if (item.angle) {
+          ctx.translate(item.center_x, item.center_y);
+          ctx.rotate((item.angle * Math.PI) / 180);
+          ctx.translate(-item.center_x, -item.center_y);
+        }
+        ctx.lineWidth = lineWidth || 2;
+        ctx.strokeStyle = lineColor || "#f40";
+        ctx.strokeRect(item.x, item.y, item.width, item.height);
+      });
+    };
   };
 
   useImperativeHandle(
@@ -55,9 +82,9 @@ const ImgDrawRect = (props, ref) => {
       },
       getBlob: () => {
         const canvas = canvasReft.current;
-        canvas.toBlob((blob)=>{
-          console.log(blob,"二进制数据")
-        })
+        canvas.toBlob((blob) => {
+          console.log(blob, "二进制数据");
+        });
       },
       clearRect: () => {
         const canvas = canvasReft.current;
@@ -95,29 +122,56 @@ const ImgDrawRect = (props, ref) => {
     const canvas = canvasReft.current;
     const ctx = canvas.getContext("2d");
     ctx.clearRect(0, 0, canvas.width, canvas.height); // 清空画布
-    img.onload = () => {
-      const ctx = canvas.getContext("2d");
-      let arr = [];
-      boxData.forEach((List) => {
-        var Cwidth = (width / img.width) * List.width;
-        var Cheight = (height / img.height) * List.height;
-        var Cx = (width / img.width) * List.left;
-        var Cy = (height / img.height) * List.top;
-        arr.push({
-          width: Cwidth,
-          height: Cheight,
-          x: Cx,
-          y: Cy,
-        });
-      });
+    renderRect(boxData, ctx, img);
+    // img.onload = () => {
+    //   let arr = [];
+    //   boxData.forEach((List) => {
+    //     let Cwidth = (width / img.width) * List.width;
+    //     let Cheight = (height / img.height) * List.height;
+    //     if (List.angle) {
+    //       let Cx = (width / img.width) * (List.center_x - List.width / 2);
+    //       let Cy = (height / img.height) * (List.center_y - List.height / 2);
+    //       let Ccenter_x = (width / img.width) * List.center_x;
+    //       let Ccenter_y = (height / img.height) * List.center_y;
+    //       arr.push({
+    //         width: Cwidth,
+    //         height: Cheight,
+    //         x: Cx,
+    //         y: Cy,
+    //         center_x: Ccenter_x,
+    //         center_y: Ccenter_y,
+    //         angle: List.angle,
+    //       });
+    //     } else {
+    //       // let Cwidth = (width / img.width) * List.width;
+    //       // let Cheight = (height / img.height) * List.height;
+    //       let Cx = (width / img.width) * List.left;
+    //       let Cy = (height / img.height) * List.top;
+    //       // console.log(List.width, List.height);
+    //       arr.push({
+    //         width: Cwidth,
+    //         height: Cheight,
+    //         x: Cx,
+    //         y: Cy,
+    //       });
+    //     }
+    //   });
 
-      arr.forEach((item) => {
-        ctx.lineWidth = lineWidth || 2;
-        // ctx.rect(item.x, item.y, item.width, item.height);
-        ctx.strokeStyle = lineColor || "#f40";
-        ctx.strokeRect(item.x, item.y, item.width, item.height);
-      });
-    };
+    //   arr.forEach((item) => {
+    //     if (item.angle) {
+    //       ctx.translate(item.center_x, item.center_y);
+    //       ctx.rotate((item.angle * Math.PI) / 180);
+    //       ctx.translate(-item.center_x, -item.center_y);
+    //       ctx.lineWidth = lineWidth || 2;
+    //       ctx.strokeStyle = lineColor || "#f40";
+    //       ctx.strokeRect(item.x, item.y, item.width, item.height);
+    //     } else {
+    //       ctx.lineWidth = lineWidth || 2;
+    //       ctx.strokeStyle = lineColor || "#f40";
+    //       ctx.strokeRect(item.x, item.y, item.width, item.height);
+    //     }
+    //   });
+    // };
   }, [props, boxData]);
 
   return (
